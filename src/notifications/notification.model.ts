@@ -11,7 +11,7 @@ const notificationSchema = new Schema<Notification>(
 			type: Types.ObjectId,
 			ref: 'user',
 		},
-		post: {
+		entity: {
 			type: Types.ObjectId,
 			ref: 'post',
 		},

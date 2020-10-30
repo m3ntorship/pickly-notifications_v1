@@ -17,19 +17,23 @@ const retrieved = async (notifications: Array<Notification>) => {
 	}
 };
 
-const populatePosts = (notifications: Notification[], authorization: string) =>
-	Promise.all(
-		notifications.map(async (notification) => {
-			const {
-				data: { data },
-			} = await POSTS_API.getPostById(
-				notification.post.toString(),
-				authorization!
-			);
-			notification = { ...notification.toJSON(), post: data };
-			return notification;
-		})
-	);
+const populatePosts = (
+	notifications: Notification[],
+	authorization: string
+) => {
+	const newnotifications = notifications.map(async (notification) => {
+		const {
+			data: { data },
+		} = await POSTS_API.getPostById(
+			notification.entity.toString(),
+			authorization!
+		);
+		notification = { ...notification.toJSON(), entity: data };
+		return notification;
+	});
+
+	return Promise.all(newnotifications);
+};
 
 export const NotificationService = {
 	async getAll(req: express.Request, res: express.Response) {
@@ -50,7 +54,7 @@ export const NotificationService = {
 			);
 			res.status(200).json({
 				status: 'success',
-				notificationsPopPosts,
+				notifications: notificationsPopPosts,
 			});
 			retrieved(notifications);
 		} catch (err) {
@@ -60,8 +64,8 @@ export const NotificationService = {
 	async create(req: express.Request, res: express.Response) {
 		try {
 			const sender: Types.ObjectId = req.user.mongouser.id;
-			const post: Types.ObjectId = req.body.postId;
-			const user = await User.findOne({ posts: { $in: [post] } });
+			const postId: Types.ObjectId = req.body.id;
+			const user = await User.findOne({ posts: { $in: [postId] } });
 
 			if (!user)
 				return res.status(500).json({
@@ -77,7 +81,7 @@ export const NotificationService = {
 			const notification = await Notifications.create({
 				sender,
 				receiver: user.id,
-				post,
+				entity: postId,
 				flagged: false,
 				retrieved: false,
 			});
