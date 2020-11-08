@@ -107,3 +107,6 @@ service-account.json
 package-lock.json
 development.json
 config
+
+config/local-*.*
+config/local.*

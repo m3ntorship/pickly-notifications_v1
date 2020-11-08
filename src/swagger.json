@@ -210,5 +210,11 @@
         "scheme": "bearer"
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "description": "Try it Now",
+      "url": "localhost:3002"
+    }
+  ]
 }
