@@ -1,0 +1,214 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Pickly Notifications",
+    "description": "notifications microservice api for pickly application",
+    "contact": {
+      "name": "m3ntorship",
+      "url": "https://m3ntorship.net/",
+      "email": "info@m3ntorship.net"
+    }
+  },
+  "security": [
+    {
+      "firebaseAuth": []
+    }
+  ],
+  "paths": {
+    "/notifications": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "3da08a2bd194705128a21ac2"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "created a new notification successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notification-summary-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "you cannot upvote your own image"
+          }
+        }
+      },
+      "get": {
+        "description": "get all notifications for current user",
+        "responses": {
+          "200": {
+            "description": "retrieved all notifications successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/{notificationId}": {
+      "patch": {
+        "description": "flag a notification by its id",
+        "parameters": [
+          {
+            "name": "notificationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2da188ae26ajk26599972688"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Flagged a notification successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notification-summary-response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You cannot flag other people notification"
+          },
+          "500": {
+            "description": "Cannot find a notification"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "notification-summary-response": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "notification": {
+            "type": "object",
+            "properties": {
+              "flagged": {
+                "type": "boolean"
+              },
+              "retrieved": {
+                "type": "boolean"
+              },
+              "_id": {
+                "type": "string",
+                "example": "2da188ae26ajk26599972688"
+              },
+              "sender": {
+                "type": "string",
+                "example": "2da188ae26ajk26599972688"
+              },
+              "receiver": {
+                "type": "string",
+                "example": "2da188ae26ajk26599972688"
+              },
+              "entity": {
+                "type": "string",
+                "example": "2da188ae26ajk26599972688"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2020-11-03T16:43:27.002Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2020-11-03T16:43:27.002Z"
+              },
+              "__v": {
+                "type": "integer",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "flagged": {
+            "type": "boolean"
+          },
+          "retrieved": {
+            "type": "boolean"
+          },
+          "_id": {
+            "type": "string",
+            "example": "2da188ae26ajk26599972688"
+          },
+          "sender": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "3da08a2bd194705128a21ac2"
+              },
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "jdoe@example.com"
+              },
+              "userImage": {
+                "type": "string",
+                "description": "uri of user image"
+              },
+              "receiver": {
+                "type": "string",
+                "description": "id of the receiver user",
+                "example": "2da188ae26ajk26599972688"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2020-11-03T16:43:27.002Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2020-11-03T16:43:27.002Z"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "firebaseAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
