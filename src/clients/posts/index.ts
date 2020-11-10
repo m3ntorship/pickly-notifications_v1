@@ -6,8 +6,8 @@ const POSTS_CLIENT = axios.create({
 });
 
 export const POSTS_API = {
-	async getPostById(postId: string, authorization: string) {
-		const data = await POSTS_CLIENT.get(`/posts/${postId}`, {
+	getPostById(postId: string, authorization: string) {
+		const data = POSTS_CLIENT.get(`/posts/${postId}`, {
 			headers: {
 				authorization,
 			},
