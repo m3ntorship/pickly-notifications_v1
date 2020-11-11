@@ -1,0 +1,7 @@
+{
+  "environment": "development",
+  "dev_mode": true,
+  "services": {
+    "postsService": "http://localhost:3001"
+  }
+}

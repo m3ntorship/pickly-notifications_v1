@@ -23,12 +23,12 @@ const populatePosts = (
 ) => {
 	const newnotifications = notifications.map(async (notification) => {
 		const {
-			data: { data },
+			data: { post },
 		} = await POSTS_API.getPostById(
 			notification.entity.toString(),
 			authorization!
 		);
-		notification = { ...notification.toJSON(), entity: data };
+		notification = { ...notification.toJSON(), entity: post };
 		return notification;
 	});
 
