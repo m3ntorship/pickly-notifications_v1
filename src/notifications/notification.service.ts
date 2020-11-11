@@ -23,12 +23,12 @@ const populatePosts = (
 ) => {
 	const newnotifications = notifications.map(async (notification) => {
 		const {
-			data: { data },
+			data: { post },
 		} = await POSTS_API.getPostById(
 			notification.entity.toString(),
 			authorization!
 		);
-		notification = { ...notification.toJSON(), entity: data };
+		notification = { ...notification.toJSON(), entity: post };
 		return notification;
 	});
 
@@ -115,6 +115,20 @@ export const NotificationService = {
 			res.status(200).json({
 				status: 'succes',
 				notification: notification.toJSON(),
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	},
+	async hasRetrievedAll(req: express.Request, res: express.Response) {
+		try {
+			const notRetrieved = await Notifications.findOne({
+				receiver: req.user.mongouser._id,
+				retrieved: false,
+			});
+			res.status(200).json({
+				status: 'success',
+				retrievedAll: !notRetrieved,
 			});
 		} catch (err) {
 			console.log(err);
