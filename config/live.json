@@ -1,0 +1,6 @@
+{
+  "environment": "live",
+  "services": {
+    "postsService": "https://pickly-posts-be-dev.m3ntorship.net/"
+  }
+}
