@@ -11,6 +11,6 @@ router
 
 router.route('/:id').patch(NotificationService.flag);
 
-router.route('/hasretrievedall').get(NotificationService.hasRetrievedAll);
+router.route('/retrieved').get(NotificationService.hasRetrievedAll);
 
 export default router;
