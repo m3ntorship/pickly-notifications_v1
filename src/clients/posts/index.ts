@@ -7,10 +7,11 @@ const POSTS_CLIENT = axios.create({
 
 export const POSTS_API = {
 	getPostById(postId: string, authorization: string) {
-		return POSTS_CLIENT.get(`/posts/${postId}`, {
+		const data = POSTS_CLIENT.get(`/posts/${postId}`, {
 			headers: {
 				authorization,
 			},
 		});
+		return data;
 	},
 };
