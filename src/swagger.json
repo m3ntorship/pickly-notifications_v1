@@ -12,7 +12,9 @@
   },
   "security": [
     {
-      "firebaseAuth": []
+      "firebaseAuth": [
+
+      ]
     }
   ],
   "paths": {
@@ -61,6 +63,33 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/retrieved": {
+      "get": {
+        "description": "check for retrieved notifications",
+        "responses": {
+          "200": {
+            "description": "successfully checked for retrieved notifications",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "retrievedAll": {
+                      "type": "boolean",
+                      "example": true
+                    }
                   }
                 }
               }
@@ -210,5 +239,11 @@
         "scheme": "bearer"
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "description": "Try it Now",
+      "url": "localhost:3002"
+    }
+  ]
 }
