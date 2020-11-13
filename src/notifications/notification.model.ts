@@ -24,7 +24,15 @@ const notificationSchema = new Schema<Notification>(
 			default: false,
 		},
 	},
-	{ timestamps: true }
+	{
+		toJSON: {
+			transform: function (doc, ret) {
+				ret.retrieved = undefined;
+				return ret;
+			},
+		},
+		timestamps: true,
+	}
 );
 
 const Notifications = model<Notification>('notification', notificationSchema);

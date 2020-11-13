@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import Notifications from './notification.model';
 import { NotificationService } from './notification.service';
 
 const router = Router();
@@ -9,5 +10,7 @@ router
 	.post(NotificationService.create);
 
 router.route('/:id').patch(NotificationService.flag);
+
+router.route('/retrieved').get(NotificationService.hasRetrievedAll);
 
 export default router;

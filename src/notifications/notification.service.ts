@@ -120,4 +120,18 @@ export const NotificationService = {
 			console.log(err);
 		}
 	},
+	async hasRetrievedAll(req: express.Request, res: express.Response) {
+		try {
+			const notRetrieved = await Notifications.findOne({
+				receiver: req.user.mongouser._id,
+				retrieved: false,
+			});
+			res.status(200).json({
+				status: 'success',
+				retrievedAll: !notRetrieved,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	},
 };
